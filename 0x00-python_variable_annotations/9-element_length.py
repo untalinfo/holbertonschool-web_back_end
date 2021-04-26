@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Annotate the below function’s parameters and return values with the appropriate types
+    function element_length with annotations.
 """
-from typing import Iterable, Sequence, List, Tuple
+from typing import Sequence, Tuple, List, Iterable
 
 
 def element_length(lst: Iterable[Sequence]) -> List[Tuple[Sequence, int]]:
