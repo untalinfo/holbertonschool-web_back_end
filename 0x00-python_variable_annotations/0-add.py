@@ -1,17 +1,10 @@
 #!/usr/bin/env python3
+
 """
-takes a float a and a float b as arguments and returns their sum as a float
+    function add with annotations
 """
 
 
 def add(a: float, b: float) -> float:
-    """takes a float a and a float b as arguments and returns their sum as a float
-
-    Args:
-        a (float): number
-        b (float): number
-
-    Returns:
-        float: add numbers
-    """
+    """ float + float"""
     return a + b
