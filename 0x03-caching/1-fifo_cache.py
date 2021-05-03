@@ -23,7 +23,7 @@ class FIFOCache(BaseCaching):
         """
         if key is None or item is None:
             return None
-    
+
         self.cache_data[key] = item
 
         if key not in self.list_name:
