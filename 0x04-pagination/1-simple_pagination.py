@@ -7,6 +7,8 @@ import csv
 import math
 from typing import List
 
+index_range = __import__('0-simple_helper_function').index_range
+
 
 class Server:
     """
@@ -32,19 +34,12 @@ class Server:
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """
         Get Page
+        the page of the pagination
         """
-        assert isinstance(page, int)
-        assert isinstance(page_size, int)
-        assert page > 0
-        assert page_size > 0
+        assert type(page) is int and type(page_size) is int
+        assert page > 0 and page_size > 0
 
-        def index_range(page: int, page_size: int) -> tuple:
-            """index"""
-            return (page - 1) * page_size, page * page_size
-        items = index_range(page, page_size)
-        start = items[0]
-        end = items[1]
-        get_dataset = self.dataset()
-        get_page = get_dataset[start: end]
+        start, end = index_range(page, page_size)
+        data = self.dataset()
 
-        return
+        return data[start:end]
