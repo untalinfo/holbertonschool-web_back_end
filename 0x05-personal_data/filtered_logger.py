@@ -5,6 +5,8 @@ Regex-ing
 from typing import List
 import re
 import logging
+import mysql.connector
+from os import getenv
 
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
@@ -69,3 +71,45 @@ def get_logger() -> logging.Logger:
     handler.setFormatter(RedactingFormatter(PII_FIELDS))
     logger.addHandler(handler)
     return logger
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """
+    connect to the MySQL database
+    """
+    username = getenv('PERSONAL_DATA_DB_USERNAME')
+    password = getenv('PERSONAL_DATA_DB_PASSWORD')
+    host = getenv('PERSONAL_DATA_DB_HOST')
+    db = getenv('PERSONAL_DATA_DB_NAME')
+
+    conect = mysql.connector.connection.MySQLConnection(
+        host=host,
+        user=username,
+        password=password,
+        database=db
+    )
+    return conect
+
+
+def main():
+    """
+    get data from database
+    """
+    data = get_db()
+    myCursor = data.cursor()
+    myCursor.execute("SELECT * FROM users")
+    description = [desc[0] for desc in myCursor.description]
+
+    logger = get_logger()
+
+    for user in myCursor:
+        userInfo = "".join(
+            f'{des}={str(usr)}; ' for usr, des in zip(user, description)
+        )
+        logger.info(userInfo)
+
+    myCursor.close()
+    data.close()
+
+
+if __name__ == '__main__':
+    main()
